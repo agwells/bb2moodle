@@ -73,6 +73,9 @@ class Course(object):
                 xml = etree.parse(self.zip.open(dat_name))
             except KeyError:
                 continue
+            #其他不支持的类型统一抛出异常
+            except Exception:
+                continue
 
             res_num = dat_name.replace('res', '').replace('.dat', '')
 
@@ -884,7 +887,7 @@ def create_moodle_zip(blackboard_zip_fname, out_name):
 
     err_fh = open(os.path.devnull, 'w')
 
-    command = ('unzip %s -d elixer_tmp' % blackboard_zip_fname).split(' ')
+    command = ('unzip -O utf-8 %s -d elixer_tmp' % blackboard_zip_fname).split(' ')
     subprocess.Popen(command, stdout=err_fh, stderr=err_fh).communicate()
 
     skip_parent = False

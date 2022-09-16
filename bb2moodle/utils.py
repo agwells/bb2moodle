@@ -41,6 +41,23 @@ def fix_filename(filename, res_num):
 
     return (ext + '.' + res_num[::-1] + '_' + name)[::-1]
 
+def fix_embed_filename(filename, linkname):
+    '''In: /xid-508654_1 ceshi.mp4, Out: ceshi__xid-508654_1_csfiles.mp4'''
+
+    filename = filename.replace('/', '_')
+    linkname = linkname.replace(' ', '_')
+    csfiles = 'csfiles'
+
+    if not filename:
+        return filename
+
+    if 'xid' not in filename:
+        return filename
+
+    ext, name = linkname[::-1].split('.', 1)
+
+    return (ext + '.' + csfiles[::-1] + '_' + filename[::-1] + '_' + name)[::-1]
+
 def convert(course):
     tmpl_path = os.path.join(os.path.dirname(__file__), 'moodle.xml.template')
 

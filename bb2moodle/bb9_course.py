@@ -73,7 +73,7 @@ class Course(object):
                 xml = etree.parse(self.zip.open(dat_name))
             except KeyError:
                 continue
-            #其他不支持的类型统一抛出异常
+            # 其他不支持的类型统一抛出异常
             except Exception:
                 continue
 
@@ -360,10 +360,11 @@ class Document(Resource):
         if not self.alltext:
             self.alltext = ''
 
-        while '@X@EmbeddedFile.location@X@' in self.alltext:
-            self.alltext = self.handle_embedded_file(self.alltext)
-        while '@X@EmbeddedFile.requestUrlStub@X@' in self.alltext:
-            self.alltext = self.handle_embedded_stubfile(self.alltext)
+        # 这里应该是嵌入播放器，暂不支持，所以直接不处理
+        # while '@X@EmbeddedFile.location@X@' in self.alltext:
+        #     self.alltext = self.handle_embedded_file(self.alltext)
+        # while '@X@EmbeddedFile.requestUrlStub@X@' in self.alltext:
+        #     self.alltext = self.handle_embedded_stubfile(self.alltext)
 
         content_handler = self.xml.find('.//CONTENTHANDLER').attrib['value']
 
@@ -387,20 +388,43 @@ class Document(Resource):
                 self.make_label = False
         else:
             self.res_type = 'html'
-
+        
+        if self.alltext.find('@X@EmbeddedFile') != -1:
+            self.alltext = ''
+        
         for file_elem in self.xml.findall('.//FILE'):
             self.handle_file(file_elem)
 
         self.type = 'resource'
 
+    # def handle_file(self, file_elem):
+    #     orig_name = file_elem.find('.//NAME').text
+
+    #     fixed_name = utils.fix_filename(orig_name, self.res_num)
+    #     fixed_name = fixed_name.strip("/")
+    #     fname = urllib2.quote(fixed_name.encode('utf-8'))
+
+    #     link_name = file_elem.find('.//LINKNAME').attrib['value']
+
+    #     f_link = '<a href = "$@FILEPHP@$/%s" title = %s>' % ((fname,) * 2)
+    #     f_link = 'Attached File: ' + f_link + '%s</a>' % link_name
+
+    #     self.alltext = '<br /><br />'.join([self.alltext, f_link])
+
     def handle_file(self, file_elem):
         orig_name = file_elem.find('.//NAME').text
 
-        fixed_name = utils.fix_filename(orig_name, self.res_num)
+        link_name = file_elem.find('.//LINKNAME').attrib['value']
+
+        file_action = self.xml.find('.//FILEACTION').attrib['value']
+        
+        if file_action == 'EMBED':
+            fixed_name = utils.fix_embed_filename(orig_name, link_name)
+        else:
+            fixed_name = utils.fix_filename(orig_name, self.res_num)
+         
         fixed_name = fixed_name.strip("/")
         fname = urllib2.quote(fixed_name.encode('utf-8'))
-
-        link_name = file_elem.find('.//LINKNAME').attrib['value']
 
         f_link = '<a href = "$@FILEPHP@$/%s" title = %s>' % ((fname,) * 2)
         f_link = 'Attached File: ' + f_link + '%s</a>' % link_name

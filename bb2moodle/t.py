@@ -5,7 +5,7 @@ import optparse
 text = "abcd"
 try:
     if text.find("a") is -1:
-        print "yes"
+        print("yes")
 
 except Exception as e:
-    print "expceiton"
+    print("expceiton")

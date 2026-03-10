@@ -5,14 +5,14 @@ import re
 import time
 import base64
 import shutil
-import urllib2
+import urllib.request, urllib.error, urllib.parse
 import zipfile
 import subprocess
 import sys
 
 from lxml import etree
 
-import utils
+from . import utils
 
 class Course(object):
     def __init__(self, archive_filename):
@@ -121,7 +121,7 @@ class Course(object):
     def convert_questions(self, xml, res_num):
         questions = xml.findall('.//item')
 
-        old_question_ids = [q.id for q in sum(self.questions.values(), [])]
+        old_question_ids = [q.id for q in sum(list(self.questions.values()), [])]
 
         # TODO: PEP8
 
@@ -151,7 +151,7 @@ class Course(object):
             elif question_type == 'Fill in the Blank Plus':
                 self.questions['shortanswer'].append(FillInTheBlankQuestion(question, res_num))
 
-        all_questions = sum(self.questions.values(), [])
+        all_questions = sum(list(self.questions.values()), [])
 
         all_question_ids = [q.id for q in all_questions]
 
@@ -395,7 +395,7 @@ class Document(Resource):
 
         fixed_name = utils.fix_filename(orig_name, self.res_num)
         fixed_name = fixed_name.strip("/")
-        fname = urllib2.quote(fixed_name.encode('utf-8'))
+        fname = urllib.parse.quote(fixed_name.encode('utf-8'))
 
         link_name = file_elem.find('.//LINKNAME').attrib['value']
 
@@ -428,7 +428,7 @@ class Document(Resource):
 
             filename = utils.fix_filename(filename, self.res_num)
         except Exception as e:
-            print "exception ";
+            print("exception ");
         return before + '$@FILEPHP@$/' + filename + after
 
 
@@ -610,7 +610,7 @@ class MultipleChoiceQuestion(Question):
             self.cor_fb = ''
             self.incor_fb = ''
         except:
-            print "Unexpected error:", sys.exc_info()[0]
+            print("Unexpected error:", sys.exc_info()[0])
 
         self.answers = []
 
@@ -907,7 +907,7 @@ def create_moodle_zip(blackboard_zip_fname, out_name):
                     ext, fname = '', bb_fname[1:]
                     moodle_fname = (base64.b16decode(fname.upper()))
 
-                moodle_fname = urllib2.unquote(moodle_fname)
+                moodle_fname = urllib.parse.unquote(moodle_fname)
 
             res_num = root.split(os.sep, 1)[1].split(os.sep)[0].replace('res', '')
 

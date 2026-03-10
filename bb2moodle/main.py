@@ -5,7 +5,7 @@ import os
 import sys
 import optparse
 
-import bb9_course
+from . import bb9_course
 
 def parse_options():
     parser = optparse.OptionParser(
@@ -42,24 +42,24 @@ def main():
     input_path = args[0]
 
     if not os.path.exists(input_path):
-        print 'Error: %s does not exist' % input_path
+        print('Error: %s does not exist' % input_path)
         sys.exit(1)
 
     if options.is_folder:
         if not os.path.isdir(input_path):
-            print 'Error: %s is not a directory' % input_path
+            print('Error: %s is not a directory' % input_path)
             sys.exit(1)
 
         out_path = input_path + '_converted'
 
         if os.path.exists(out_path):
-            print 'Error: Directory %s already exists' % out_path
+            print('Error: Directory %s already exists' % out_path)
             sys.exit(1)
 
         zip_names = [f for f in os.listdir(input_path) if f.endswith('.zip')]
 
         if not len(zip_names):
-            print 'Error: There are no zip files in %s' % input_path
+            print('Error: There are no zip files in %s' % input_path)
             sys.exit(1)
 
         os.mkdir(out_path)
@@ -74,15 +74,15 @@ def main():
                 bb9_course.create_moodle_zip(full_in_name, full_out_name)
             except Exception as e:
                 # TODO
-                print 'Error converting %s' % zip_name
+                print('Error converting %s' % zip_name)
 
     else:
         if not os.path.isfile(input_path):
-            print 'Error: %s is not a file' % input_path
+            print('Error: %s is not a file' % input_path)
             sys.exit(1)
 
         if not input_path.endswith('.zip'):
-            print 'Error: %s is not a zip file' % input_path
+            print('Error: %s is not a zip file' % input_path)
             sys.exit(1)
 
         if options.out_name:

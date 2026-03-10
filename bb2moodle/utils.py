@@ -22,7 +22,7 @@ def generate_stamp():
 
     host_part = 'unknownhost'
     date_part = datetime.datetime.now().strftime('%y%m%d%H%M%S')
-    random_part = ''.join([random.choice(chars) for n in xrange(6)])
+    random_part = ''.join([random.choice(chars) for n in range(6)])
 
     return '+'.join([host_part, date_part, random_part])
 

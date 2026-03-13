@@ -360,7 +360,9 @@ class Document(Resource):
         if not self.alltext:
             self.alltext = ''
 
-        # 这里应该是嵌入播放器，暂不支持，所以直接不处理
+        # This should be an embedded player, which is not currently supported,
+        # so we'll leave it as is.
+        #
         # while '@X@EmbeddedFile.location@X@' in self.alltext:
         #     self.alltext = self.handle_embedded_file(self.alltext)
         # while '@X@EmbeddedFile.requestUrlStub@X@' in self.alltext:

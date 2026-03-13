@@ -57,10 +57,10 @@ class Course(object):
 
         manifest_str = self.zip.read('imsmanifest.xml')
 
-        namespace = 'xmlns:bb="http://www.blackboard.com/content-packaging/"'
+        namespace = b'xmlns:bb="http://www.blackboard.com/content-packaging/"'
 
-        manifest_str = manifest_str.replace(namespace, '')
-        manifest_str = manifest_str.replace('bb:', '').replace('xml:', '')
+        manifest_str = manifest_str.replace(namespace, b'')
+        manifest_str = manifest_str.replace(b'bb:', b'').replace(b'xml:', b'')
 
         return etree.fromstring(manifest_str)
 
@@ -405,9 +405,9 @@ class Document(Resource):
         self.alltext = '<br /><br />'.join([self.alltext, f_link])
 
     def handle_embedded_file(self, text):
-        before, rest = text.split('@X@EmbeddedFile.location@X@', 1)
+        before, sep, rest = text.partition('@X@EmbeddedFile.location@X@')
 
-        filename, after = rest.split('"', 1)
+        filename, sep, after = rest.partition('"')
 
         after = '"' + after
 
@@ -419,16 +419,17 @@ class Document(Resource):
         return before + '$@FILEPHP@$/' + filename + after
 
     def handle_embedded_stubfile(self, text):
-        try:
-            before, rest = text.split('@X@EmbeddedFile.requestUrlStub@X@bbcswebdav', 1)
+        print(text, flush=True)
+#        try:
+        before, sep, rest = text.partition('@X@EmbeddedFile.requestUrlStub@X@bbcswebdav')
 
-            filename, after = rest.split('"', 1)
+        filename, sep, after = rest.partition('"')
 
-            after = '"' + after
+        after = '"' + after
 
-            filename = utils.fix_filename(filename, self.res_num)
-        except Exception as e:
-            print("exception ");
+        filename = utils.fix_filename(filename, self.res_num)
+#        except Exception as e:
+#            print("exception ");
         return before + '$@FILEPHP@$/' + filename + after
 
 
@@ -477,12 +478,12 @@ class Test(Resource):
 
     def handle_embedded_stubfile(self, text):
 
-        if text.find('@X@EmbeddedFile.requestUrlStub@X@bbcswebdav') is -1:
+        if text.find('@X@EmbeddedFile.requestUrlStub@X@bbcswebdav') == -1:
             return text
         try:
 
-            before, rest = text.split('@X@EmbeddedFile.requestUrlStub@X@bbcswebdav', 1)
-            filename, after = rest.split('"', 1)
+            before, sep, rest = text.partition('@X@EmbeddedFile.requestUrlStub@X@bbcswebdav')
+            filename, sep, after = rest.partition('"')
 
             after = '"' + after
 
@@ -523,12 +524,12 @@ class Question(ContentItem):
 
     def handle_embedded_stubfile(self, text):
 
-        if text.find('@X@EmbeddedFile.requestUrlStub@X@bbcswebdav') is -1:
+        if text.find('@X@EmbeddedFile.requestUrlStub@X@bbcswebdav') == -1:
             return text
         try:
 
-            before, rest = text.split('@X@EmbeddedFile.requestUrlStub@X@bbcswebdav', 1)
-            filename, after = rest.split('"', 1)
+            before, sep, rest = text.partition('@X@EmbeddedFile.requestUrlStub@X@bbcswebdav')
+            filename, sep, after = rest.partition('"')
 
             after = '"' + after
 

@@ -73,7 +73,7 @@ class Course(object):
                 xml = etree.parse(self.zip.open(dat_name))
             except KeyError:
                 continue
-            # 其他不支持的类型统一抛出异常
+            # All other unsupported types will throw an exception.
             except Exception:
                 continue
 

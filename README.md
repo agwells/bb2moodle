@@ -1,116 +1,111 @@
+# Step-by-Step guide for migrating courses from the Blackboard standard version to moodle version > 1.9.
 
-> Step-by-Step guide for migrating courses from the Blackboard standard version to moodle version > 1.9.
+## Step 1: Installation
 
-#### Black Board Categorisation :
+You've already downloaded the source code for this tool. Older versions may also
+be available here:
 
-For the purpose of course migration to Moodle, Blackboard can be categorised into 3 different systems, each with a different migration procedure.  
+- https://developerck.com/wp-content/uploads/2020/02/reteach.zip
+- https://github.com/adamzap/reteach
+- https://github.com/developerck/bb2moodle
+- https://github.com/MillCloud/bb2moodle
 
--   CE 4.0/CE 4.1  (rebranded WebCT) [ can use the webctimport tool with the “IMS Content Migration Utility”]
--   **Standard Blackboard (5.5, 6, 7, 8, 9, 9.1)**  **[ Follow the mentioned Process in this article]**
--   Vista3/Vista4/Vista8 and CE 6/CE 8  (rebranded WebCT) [ backup files are encrypted so can not import that ]
+### Pre-requisites
 
-> **“_The following process tested on a standard blackboard 9.1 Q4 course export file and importing that into moodle 2.7 LTS after following below steps”_**
+1. Linux OS
+2. Python **2** (not 3)
+   - Python 2 is several years out of support, but I haven't yet updated this project to work with Python 3.
+   - One way to install Python 2 and a supported pip version, is to use [PyEnv](https://github.com/pyenv/pyenv).
+3. `pip` and `setuptools`
+   - If you used `pyenv` then you already have this.
 
-### **Objective** :
+### Setup/install
 
-Migrating courses from  **blackboard Standard 9.1 Q4**  version to Moodle 2.7, via exporting from Blackboard and importing that into Moodle.  
+`cd` into this directory and run:
 
-****** The reason to say  **moodle version > 1.9** is , all the versions utilise the moodle2 process to import and before moodle 2.0 (i.e moodle 1.9 and before) the process was different. However “ > moodle 2.0” was supplied with an inbuilt converter, which supports but upto a limit and without any assurity.
+```bash
+ pip install
+```
 
-### **Solution :**
+Or if you're going to hack on this program...
 
-To achieve the target , you need to follow the below steps:
+```bash
+pip install --editable
+```
 
-1 . Setup the Conversion Tool  [#step-1](https://developerck.com/blackboard-course-migration-to-moodle/#step-1)
+You should now be able to invoke this tool at the CLI...
 
-2. Convert the exported BB (blackboard file) to Moodle 1.9 zip file via conversion tool  [#step-2](https://developerck.com/blackboard-course-migration-to-moodle/#step-2)
+```console
+> bb2moodle
+Usage: bb2moodle [options] input.zip
 
-3 . Make some mentioned changes in moodle code and DB for moodle version > 1.9  [#step-3](https://developerck.com/blackboard-course-migration-to-moodle/#step-3)
+bb course to moodle
 
-Or
+Options:
+  --version             show program's version number and exit
+  -h, --help            show this help message and exit
+  -o OUT_NAME, --outfile=OUT_NAME
+                        a name for the output archive
+  -f, --folder          tells bb2moodle to expect a folder and convert all
+                        zips in it
+```
 
-You can import it in moodle 1.9 and then upgrade moodle to 2.0 and export it to moodle 2 compatible import
-
-4 . Import the Converted file into Moodle version > 1.9  [#step-4](https://developerck.com/blackboard-course-migration-to-moodle/#step-4)
-
-#### **Step-1 : –**
-
-Conversion Tool can be  [download from here](https://developerck.com/wp-content/uploads/2020/02/reteach.zip) or  [https://github.com/adamzap/reteach](https://github.com/adamzap/reteach)
-
-or update version is available at :  [https://github.com/developerck/bb2moodle](https://github.com/developerck/bb2moodle)  (just replace reteach by bb2moodle)
-Assuming that you are using linux environment.
-
--   **Pre-requisite : python2 and pip is installed**
-
-**If not**  , then install python 2 and pip first, steps are –
-
-Check for python
-
-`>>> python --version`
-
-If python not found :  [https://www.python.org/downloads/](https://www.python.org/downloads/)
-
-Install pip and setup tools
-
-`>>> sudo apt-get install python-setuptools`
-
-For PIP
-
-`>>> curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py`
-
-`>>> python get-pip.py`  
-
-Now you have installed Python and pip and I assume that you have downloaded the conversion tool zip file. Let’s say you are under the directory  **/var/www/html**  and conversion tool is present at  **/var/www/html/retach.zip**  
-
--   Unzip that file , the directory  **reteach**  should be created.
--   Go inside that directory , location /var/www/html/retach
--   Setup.py file will be there
--   Run following command `**>>>**  **pip install .**`
--   Package has been installed, you can cross check via typing reteach **`>>> reteach`**
--   If reteach is not found than please try python reteach and try after running following command `**export PATH=$PATH:~/.local/bin**`
-
-![](https://developerck.com/wp-content/uploads/2020/02/retach.png)
-
-reatech
-
-#### **Step-2 :**
+#### Step 2: Run it
 
 You just need to run this command
 
-`>>> reteach bb-sample.zip -o moodle-file.zip`
-
-_bb-sample.zip is then name of bb course zip file name . I assume that you are currently present under the directory where bb-sample.zip is present_
-
-_moodle-file.zip will be converted zip file that will be used to import in moodle.  
-_
-
-![](https://developerck.com/wp-content/uploads/2020/02/conversion.png)
-
-#### **Step-3 : –**
-
-If you are utilising moodle > 1.9, Update the following code
-
-Line number 1257 File: backup/converter/moodle1/handlerlib.php
-
-  
-_// replay the upgrade step 2011060301 – Rename field defaultgrade on table question to defaultmark  
-$data[‘defaultmark’] = $data[‘defaultgrade’];_
-
+```bash
+bb2moodle -f bb-sample.zip -o moodle-file.zip
 ```
 
-       // code to add for for blackboard course
-        $data['generalfeedbackformat'] = '1';
-        $data['createdby'] = '2'; // can be change
-        $data['modifiedby'] = '2'; // can be change
-// END
+#### Step 3: Import it
+
+Just import the generated Moodle file into your Moodle site, via the "resource course" screen.
+
+#### Step 4: DB Modifications
+
+Some of the fields imported from Blackboard contain data that's too large to fit into the corresponding database field in Moodle. If the import fails, you'll need to track down which column is the problem, and expand its size.
+
+For example, `mdl_question.name` is a `char(255)`, but questions can have longer names than that. So, you can address that by changing it to an unlimited-in-size `text` column.
+
+```postgres
+ALTER TABLE mdl_question
+ALTER COLUMN name
+TYPE text;
 ```
 
-**And run the query:**  ``ALTER TABLE `mdl_qtype_match_subquestions` CHANGE `answertext` `answertext` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;``  
+Here are the columns that are known to sometimes have problems:
 
-#### **Step -4 :**
+1. `mdl_question.name`
+2. `mdl_qtype_match_subquestions.answertext`
 
-Import that moodle-file.zip into Moodle setup , and you are done.  
+**And run the query:** ``ALTER TABLE `mdl_qtype_match_subquestions` CHANGE `answertext` `answertext` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;``
 
-![](https://developerck.com/wp-content/uploads/2020/02/import.png)
+## Additional notes:
 
-[https://developerck.com/blackboard-course-migration-to-moodle/](https://developerck.com/blackboard-course-migration-to-moodle/)
+### Black Board Categorisation
+
+For the purpose of course migration to Moodle, Blackboard can be categorised into 3 different systems, each with a different migration procedure.
+
+- CE 4.0/CE 4.1 (rebranded WebCT) [ can use the webctimport tool with the “IMS Content Migration Utility”]
+- **Standard Blackboard (5.5, 6, 7, 8, 9, 9.1)** **[ Follow the mentioned Process in this article]**
+- Vista3/Vista4/Vista8 and CE 6/CE 8 (rebranded WebCT) [ backup files are encrypted so can not import that ]
+
+> **“_The following process tested on a standard blackboard 9.1 Q4 course export file and importing that into moodle 2.7 LTS after following below steps”_**
+
+### Objective
+
+Migrating courses from **blackboard Standard 9.1 Q4** version to Moodle 2.7, via exporting from Blackboard and importing that into Moodle.
+
+> The reason to say **moodle version > 1.9** is, all the versions utilise the moodle2 process to import and before moodle 2.0 (i.e moodle 1.9 and before) the process was different. However "> moodle 2.0" was supplied with an inbuilt converter, which supports but up to a limit and without any assurity.
+
+### Solution
+
+To achieve the target , you need to follow the below steps:
+
+1. Set up / install this tool, `bb2moodle`
+2. Run `bb2moodle` at the CLI to convert the exported Blackboard archive into a Moodle 1.9 course backup.
+3. Import the Converted Moodle 1.9 file into Moodle version 2+
+4. You may need to make some modifications to the Moodle DB, because some Blackboard data fields are larger than their corresponding Moodle database fields.
+
+- (Or you can import it in moodle 1.9 and then upgrade moodle to 2.0 and export it to moodle 2 compatible import)

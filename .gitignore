@@ -1,0 +1,6 @@
+.mypy_cache
+build
+.idea
+*.egg-info
+__pycache__
+*.pyc

@@ -209,6 +209,7 @@
             <QUESTIONTEXTFORMAT>1</QUESTIONTEXTFORMAT>
             <IMAGE>{{ essay_question.image }}</IMAGE>
             <GENERALFEEDBACK></GENERALFEEDBACK>
+            <GENERALFEEDBACKFORMAT>1</GENERALFEEDBACKFORMAT>
             <DEFAULTGRADE>1</DEFAULTGRADE>
             <PENALTY>0</PENALTY>
             <QTYPE>essay</QTYPE>
@@ -218,6 +219,8 @@
             <HIDDEN>0</HIDDEN>
             <TIMECREATED>{{ course.timestamp }}</TIMECREATED>
             <TIMEMODIFIED>{{ course.timestamp }}</TIMEMODIFIED>
+            <CREATEDBY>2</CREATEDBY>
+            <MODIFIEDBY>2</MODIFIEDBY>
             <ANSWERS>
               <ANSWER>
                 <ID>{{ essay_question.answer_id }}</ID>
@@ -239,6 +242,7 @@
             <QUESTIONTEXTFORMAT>1</QUESTIONTEXTFORMAT>
             <IMAGE>{{ truefalse_question.image }}</IMAGE>
             <GENERALFEEDBACK>{{ truefalse_question.general_feedback }}</GENERALFEEDBACK>
+            <GENERALFEEDBACKFORMAT>1</GENERALFEEDBACKFORMAT>
             <DEFAULTGRADE>1</DEFAULTGRADE>
             <PENALTY>0</PENALTY>
             <QTYPE>truefalse</QTYPE>
@@ -248,6 +252,8 @@
             <HIDDEN>0</HIDDEN>
             <TIMECREATED>{{ course.timestamp }}</TIMECREATED>
             <TIMEMODIFIED>{{ course.timestamp }}</TIMEMODIFIED>
+            <CREATEDBY>2</CREATEDBY>
+            <MODIFIEDBY>2</MODIFIEDBY>
             <TRUEFALSE>
                 <TRUEANSWER>{{ truefalse_question.true_answer_id }}</TRUEANSWER>
                 <FALSEANSWER>{{ truefalse_question.false_answer_id }}</FALSEANSWER>
@@ -279,6 +285,7 @@
             <QUESTIONTEXTFORMAT>1</QUESTIONTEXTFORMAT>
             <IMAGE>{{ shortanswer_question.image }}</IMAGE>
             <GENERALFEEDBACK>{{ shortanswer_question.general_feedback }}</GENERALFEEDBACK>
+            <GENERALFEEDBACKFORMAT>1</GENERALFEEDBACKFORMAT>
             <DEFAULTGRADE>1</DEFAULTGRADE>
             <PENALTY>0</PENALTY>
             <QTYPE>shortanswer</QTYPE>
@@ -288,6 +295,8 @@
             <HIDDEN>0</HIDDEN>
             <TIMECREATED>{{ course.timestamp }}</TIMECREATED>
             <TIMEMODIFIED>{{ course.timestamp }}</TIMEMODIFIED>
+            <CREATEDBY>2</CREATEDBY>
+            <MODIFIEDBY>2</MODIFIEDBY>
             <SHORTANSWER>
                 <ANSWERS>{{ shortanswer_question.answer_string }}</ANSWERS>
                 <USECASE>0</USECASE>
@@ -315,6 +324,7 @@
             <QUESTIONTEXTFORMAT>1</QUESTIONTEXTFORMAT>
             <IMAGE>{{ multichoice_question.image }}</IMAGE>
             <GENERALFEEDBACK>{{ multichoice_question.general_feedback }}</GENERALFEEDBACK>
+            <GENERALFEEDBACKFORMAT>1</GENERALFEEDBACKFORMAT>
             <DEFAULTGRADE>1</DEFAULTGRADE>
             <PENALTY>0</PENALTY>
             <QTYPE>multichoice</QTYPE>
@@ -324,6 +334,8 @@
             <HIDDEN>0</HIDDEN>
             <TIMECREATED>{{ course.timestamp }}</TIMECREATED>
             <TIMEMODIFIED>{{ course.timestamp }}</TIMEMODIFIED>
+            <CREATEDBY>2</CREATEDBY>
+            <MODIFIEDBY>2</MODIFIEDBY>
             <MULTICHOICE>
                 <LAYOUT>0</LAYOUT>
                 <ANSWERS>{{ multichoice_question.answer_string }}</ANSWERS>
@@ -357,6 +369,7 @@
             <QUESTIONTEXTFORMAT>1</QUESTIONTEXTFORMAT>
             <IMAGE>{{ matching_question.image }}</IMAGE>
             <GENERALFEEDBACK>{{ matching_question.general_feedback }}</GENERALFEEDBACK>
+            <GENERALFEEDBACKFORMAT>1</GENERALFEEDBACKFORMAT>
             <DEFAULTGRADE>1</DEFAULTGRADE>
             <PENALTY>0</PENALTY>
             <QTYPE>match</QTYPE>
@@ -366,6 +379,8 @@
             <HIDDEN>0</HIDDEN>
             <TIMECREATED>{{ course.timestamp }}</TIMECREATED>
             <TIMEMODIFIED>{{ course.timestamp }}</TIMEMODIFIED>
+            <CREATEDBY>2</CREATEDBY>
+            <MODIFIEDBY>2</MODIFIEDBY>
             <MATCHOPTIONS>
               <SHUFFLEANSWERS>1</SHUFFLEANSWERS>
             </MATCHOPTIONS>
@@ -413,6 +428,8 @@
         <GRADE>10</GRADE>
         <TIMECREATED>{{ course.timestamp }}</TIMECREATED>
         <TIMEMODIFIED>{{ course.timestamp }}</TIMEMODIFIED>
+        <CREATEDBY>2</CREATEDBY>
+        <MODIFIEDBY>2</MODIFIEDBY>
         <TIMELIMIT>0</TIMELIMIT>
         <PASSWORD></PASSWORD>
         <SUBNET></SUBNET>

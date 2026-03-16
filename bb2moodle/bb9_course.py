@@ -539,7 +539,7 @@ class Question(ContentItem):
         if not self.name:
             self.name = '________'
 
-        self.name = re.sub(r'<.*?>', '', self.name).strip()
+        self.name = re.sub(r'<.*?>', '', self.name).strip()[:255]
 
 
         query = './/flow[@class="FILE_BLOCK"]//matapplication'
@@ -576,6 +576,7 @@ class EssayQuestion(Question):
         while '@X@EmbeddedFile.requestUrlStub@X@bbcswebdav' in self.name:
             self.name = self.handle_embedded_stubfile(self.name)
         self.text = self.name
+        self.name = self.name[:255]
         self.answer_id = utils.m_hash(self)
 
 
@@ -591,6 +592,7 @@ class TrueFalseQuestion(Question):
         while '@X@EmbeddedFile.requestUrlStub@X@bbcswebdav' in self.name:
             self.name = self.handle_embedded_stubfile(self.name)
         self.text = self.name
+        self.name = self.name[:255]
 
         query = './/itemfeedback[@ident="correct"]//mat_formattedtext'
 
@@ -628,6 +630,7 @@ class MultipleChoiceQuestion(Question):
         while '@X@EmbeddedFile.requestUrlStub@X@bbcswebdav' in self.name:
             self.name = self.handle_embedded_stubfile(self.name)
         self.text = self.name
+        self.name = self.name[:255]
 
         query = './/itemfeedback[@ident="correct"]//mat_formattedtext'
 
@@ -798,6 +801,7 @@ class MatchingQuestion(Question):
         while '@X@EmbeddedFile.requestUrlStub@X@bbcswebdav' in self.name:
             self.name = self.handle_embedded_stubfile(self.name)
         self.text = self.name
+        self.name = self.name[:255]
 
         self.answers = []
 
@@ -846,6 +850,7 @@ class OrderingQuestion(Question):
         while '@X@EmbeddedFile.requestUrlStub@X@bbcswebdav' in self.name:
             self.name = self.handle_embedded_stubfile(self.name)
         self.text = self.name
+        self.name = self.name[:255]
 
         self.answers = []
 
@@ -880,6 +885,7 @@ class FillInTheBlankQuestion(Question):
         while '@X@EmbeddedFile.requestUrlStub@X@bbcswebdav' in self.name:
             self.name = self.handle_embedded_stubfile(self.name)
         self.text = self.name
+        self.name = self.name[:255]
 
         self.answers = []
 

@@ -63,7 +63,12 @@ def convert(course):
 
     template_content = open(tmpl_path).read()
 
-    xml_template = jinja2.Template(template_content, autoescape=True)
+    xml_template = jinja2.Template(
+        template_content,
+        lstrip_blocks=True,
+        trim_blocks=True,
+        autoescape=True
+    )
 
     # jinja2's environment finalize wasn't working for some reason
     moodle_xml_str = xml_template.render(course=course).replace('>None<', '><')
